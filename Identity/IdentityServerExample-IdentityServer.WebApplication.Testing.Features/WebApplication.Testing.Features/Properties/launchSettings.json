@@ -1,12 +1,21 @@
-﻿{
+{
   "profiles": {
     "WebApplication.Testing.Features": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:7199",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:7199"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "launchUrl": "http://localhost:7199",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:7199"
+      },
+      "distributionName": ""
     }
   }
 }

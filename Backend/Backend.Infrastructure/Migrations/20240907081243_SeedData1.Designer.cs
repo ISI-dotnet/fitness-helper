@@ -4,6 +4,7 @@ using Backend.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240907081243_SeedData1")]
+    partial class SeedData1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,43 +148,43 @@ namespace Backend.Infrastructure.Migrations
                         new
                         {
                             EfficiencyId = 1,
-                            Abs = 2,
-                            Arms = 3,
-                            Back = 1,
-                            BasicalSetId = 1,
-                            Cardio = 0,
-                            Chest = 5,
-                            Legs = 4
-                        },
-                        new
-                        {
-                            EfficiencyId = 2,
-                            Abs = 2,
-                            Arms = 3,
-                            Back = 1,
-                            BasicalSetId = 2,
-                            Cardio = 1,
-                            Chest = 4,
-                            Legs = 0
-                        },
-                        new
-                        {
-                            EfficiencyId = 3,
-                            Abs = 3,
+                            Abs = 4,
                             Arms = 2,
-                            Back = 1,
-                            BasicalSetId = 3,
-                            Cardio = 1,
-                            Chest = 0,
+                            Back = 3,
+                            BasicalSetId = 0,
+                            Cardio = 5,
+                            Chest = 2,
                             Legs = 3
                         },
                         new
                         {
-                            EfficiencyId = 4,
+                            EfficiencyId = 2,
+                            Abs = 3,
+                            Arms = 1,
+                            Back = 4,
+                            BasicalSetId = 0,
+                            Cardio = 4,
+                            Chest = 0,
+                            Legs = 5
+                        },
+                        new
+                        {
+                            EfficiencyId = 3,
                             Abs = 2,
+                            Arms = 5,
+                            Back = 4,
+                            BasicalSetId = 0,
+                            Cardio = 2,
+                            Chest = 5,
+                            Legs = 1
+                        },
+                        new
+                        {
+                            EfficiencyId = 4,
+                            Abs = 5,
                             Arms = 0,
-                            Back = 1,
-                            BasicalSetId = 4,
+                            Back = 3,
+                            BasicalSetId = 0,
                             Cardio = 0,
                             Chest = 0,
                             Legs = 5
@@ -190,24 +192,35 @@ namespace Backend.Infrastructure.Migrations
                         new
                         {
                             EfficiencyId = 5,
-                            Abs = 3,
+                            Abs = 2,
                             Arms = 2,
-                            Back = 1,
-                            BasicalSetId = 5,
-                            Cardio = 1,
-                            Chest = 0,
-                            Legs = 3
+                            Back = 5,
+                            BasicalSetId = 0,
+                            Cardio = 3,
+                            Chest = 4,
+                            Legs = 4
                         },
                         new
                         {
                             EfficiencyId = 6,
-                            Abs = 2,
+                            Abs = 4,
                             Arms = 3,
-                            Back = 1,
-                            BasicalSetId = 6,
-                            Cardio = 0,
-                            Chest = 0,
+                            Back = 0,
+                            BasicalSetId = 0,
+                            Cardio = 5,
+                            Chest = 2,
                             Legs = 0
+                        },
+                        new
+                        {
+                            EfficiencyId = 7,
+                            Abs = 3,
+                            Arms = 4,
+                            Back = 4,
+                            BasicalSetId = 0,
+                            Cardio = 2,
+                            Chest = 3,
+                            Legs = 4
                         });
                 });
 

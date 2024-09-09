@@ -39,7 +39,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer("Data Source=localhost\\SQLSERVER;Initial Catalog=TrainingHelperAlevel;Integrated Security=True;MultipleActiveResultSets=true"));
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer("Server=.\\SqlExpress;Database=FitnessHelper;Trusted_Connection=true;TrustServerCertificate=true;"));
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IBasicSetService, BasicSetService>();
 builder.Services.AddTransient<IUserSetService, UserSetService>();

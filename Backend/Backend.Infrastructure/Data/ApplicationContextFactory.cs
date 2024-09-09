@@ -12,7 +12,7 @@ namespace Backend.Infrastructure.Data
     {
         public ApplicationContext CreateDbContext(string[] args)
         {
-            string connectionString = "Data Source=localhost\\SQLSERVER;Initial Catalog=TrainingHelperAlevel;Integrated Security=True;MultipleActiveResultSets=true";
+            string connectionString = "Server=.\\SqlExpress;Database=FitnessHelper;Trusted_Connection=true;TrustServerCertificate=true;";
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
             var options = optionsBuilder
                 .UseSqlServer(connectionString)

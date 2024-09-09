@@ -19,7 +19,7 @@ namespace WebApplication1.Testing.Features.Services
     {
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            string connString = "Data Source=localhost\\SQLSERVER;Initial Catalog=TrainingHelperAlevel;Integrated Security=True;MultipleActiveResultSets=true";
+            string connString = "Server=.\\SqlExpress;Database=FitnessHelper;Trusted_Connection=true;TrustServerCertificate=true;";
             string query = "SELECT Login, Password FROM [dbo].[User]";
             List<User> users = new List<User>();
             using (SqlConnection connection = new SqlConnection(connString))
