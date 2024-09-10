@@ -92,20 +92,44 @@ namespace Backend.Core.Services
 
         public AchievmentSmallDesc? IsResearcher(int userId)
         {
-            var achievement = _context.UserAchievments.Include(x => x.Achievment).FirstOrDefault(x => x.UserId == userId && x.AchievmentId == 7);
-            if (achievement.IsDone)
+            var achievement = _context.UserAchievments
+                                      .Include(x => x.Achievment)
+                                      .FirstOrDefault(x => x.UserId == userId && x.AchievmentId == 7);
+
+            if (achievement == null || achievement.Achievment == null || achievement.IsDone)
+            {
                 return null;
+            }
             else
-                return new AchievmentSmallDesc { Desc = achievement.Achievment.Description, AchievmentId = achievement.AchievmentId, Name = achievement.Achievment.Name };
+            {
+                return new AchievmentSmallDesc
+                {
+                    Desc = achievement.Achievment.Description,
+                    AchievmentId = achievement.AchievmentId,
+                    Name = achievement.Achievment.Name
+                };
+            }
         }
 
         public AchievmentSmallDesc? IsCreator(int userId)
         {
-            var achievement = _context.UserAchievments.Include(x => x.Achievment).FirstOrDefault(x => x.UserId == userId && x.AchievmentId == 6);
-            if (achievement.IsDone)
+            var achievement = _context.UserAchievments
+                                      .Include(x => x.Achievment)
+                                      .FirstOrDefault(x => x.UserId == userId && x.AchievmentId == 6);
+
+            if (achievement == null || achievement.Achievment == null || achievement.IsDone)
+            {
                 return null;
+            }
             else
-                return new AchievmentSmallDesc { Desc = achievement.Achievment.Description, AchievmentId = achievement.AchievmentId, Name = achievement.Achievment.Name };
+            {
+                return new AchievmentSmallDesc
+                {
+                    Desc = achievement.Achievment.Description,
+                    AchievmentId = achievement.AchievmentId,
+                    Name = achievement.Achievment.Name
+                };
+            }
         }
     }
 }

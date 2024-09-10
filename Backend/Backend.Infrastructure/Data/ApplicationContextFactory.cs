@@ -12,7 +12,8 @@ namespace Backend.Infrastructure.Data
     {
         public ApplicationContext CreateDbContext(string[] args)
         {
-            string connectionString = "Server=.\\SqlExpress;Database=FitnessHelper;Trusted_Connection=true;TrustServerCertificate=true;";
+            //string connectionString = "Server=.\\SqlExpress;Database=FitnessHelper;Trusted_Connection=true;TrustServerCertificate=true;";
+            string connectionString = "Server=LAPTOP-I1HN81A5;Database=FitnessHelper;Trusted_Connection=true;TrustServerCertificate=true;";
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
             var options = optionsBuilder
                 .UseSqlServer(connectionString)

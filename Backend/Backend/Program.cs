@@ -39,7 +39,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer("Server=.\\SqlExpress;Database=FitnessHelper;Trusted_Connection=true;TrustServerCertificate=true;"));
+// builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer("Server=.\\SqlExpress;Database=FitnessHelper;Trusted_Connection=true;TrustServerCertificate=true;"));
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer("Server=LAPTOP-I1HN81A5;Database=FitnessHelper;Trusted_Connection=true;TrustServerCertificate=true;"));
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IBasicSetService, BasicSetService>();
 builder.Services.AddTransient<IUserSetService, UserSetService>();
@@ -52,6 +53,12 @@ builder.Services.AddTransient<IUserMusclesService, UserMusclesService>();
 
 var app = builder.Build();
 app.UseCors(MyAllowSpecificOrigins);
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+    dbContext.Database.Migrate(); // Apply pending migrations
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
