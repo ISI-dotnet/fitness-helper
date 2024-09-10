@@ -24,7 +24,14 @@ namespace Backend.Core.Services
 
         public AchievmentSmallDesc? TrainingAchievements(int userId)
         {
-            var user = _context.Users.Include(x => x.UserSetsOfExercises).ThenInclude(x => x.UserSetTrainings).Include(x =>x.BasicalSetTrainings).FirstOrDefault(x => x.UserId == userId);
+            var user = _context.Users
+                .Include(x => x.UserSetsOfExercises).ThenInclude(x => x.UserSetTrainings)
+                .Include(x => x.BasicalSetTrainings)
+                .FirstOrDefault(x => x.UserId == userId);
+
+            if (user == null || user?.UserSetsOfExercises == null || user.BasicalSetTrainings == null)
+                return null;
+
             int count = 0;
             foreach (var userSet in user.UserSetsOfExercises)
             {
@@ -46,33 +53,42 @@ namespace Backend.Core.Services
         public AchievmentSmallDesc? Is5BasicalTrainings(int userId)
         {
             var user = _context.Users.Include(x => x.BasicalSetTrainings).FirstOrDefault(x => x.UserId == userId);
-            int count = 0;
-            count += user.BasicalSetTrainings.Count;
-            if (count == 5)
-                return new AchievmentSmallDesc { AchievmentId = 4, Desc = "Finish 5 Basical Training Sessions", Name = "Learn From The Best" };
-            else
+            if (user?.BasicalSetTrainings == null)
                 return null;
+
+            int count = user.BasicalSetTrainings.Count;
+            return count == 5
+                ? new AchievmentSmallDesc { AchievmentId = 4, Desc = "Finish 5 Basical Training Sessions", Name = "Learn From The Best" }
+                : null;
         }
 
         public AchievmentSmallDesc? Is5OwnTrainings(int userId)
         {
             var user = _context.Users.Include(x => x.UserSetsOfExercises).ThenInclude(x => x.UserSetTrainings).FirstOrDefault(x => x.UserId == userId);
+            if (user?.UserSetsOfExercises == null)
+                return null;
+
             int count = 0;
             foreach (var userSet in user.UserSetsOfExercises)
-            {
-                count += userSet.UserSetTrainings.Count;
-            }
-            if (count == 5)
-                return new AchievmentSmallDesc { AchievmentId = 5, Desc = "Finish 5 Your Own Trainings", Name = "Train On Your Own" };
-            else
-                return null;
+                count += userSet.UserSetTrainings?.Count ?? 0;
+
+            return count == 5
+                ? new AchievmentSmallDesc { AchievmentId = 5, Desc = "Finish 5 Your Own Trainings", Name = "Train On Your Own" }
+                : null;
         }
 
         public HttpStatusCode PutAchievment(int achievmentId, int userId)
         {
-            var userAchievment = _context.UserAchievments.First(x => x.UserId == userId && x.AchievmentId == achievmentId);
+            var userAchievment = _context.UserAchievments
+                                         .FirstOrDefault(x => x.UserId == userId && x.AchievmentId == achievmentId);
+            if (userAchievment == null)
+            {
+                return HttpStatusCode.NotFound;
+            }
+
             userAchievment.IsDone = true;
             _context.SaveChanges();
+
             return HttpStatusCode.OK;
         }
 
@@ -81,10 +97,23 @@ namespace Backend.Core.Services
             var resList = new List<AchievmentFull>();
             var user = _context.Users.Include(x => x.UsersAchievments).ThenInclude(x => x.Achievment).FirstOrDefault(x => x.UserId == userId);
 
+            if (user?.UsersAchievments == null)
+                return resList;
+
             foreach (var userAchievment in user.UsersAchievments)
             {
-                var achievment = new AchievmentFull { AchievmentId = userAchievment.AchievmentId, Description = userAchievment.Achievment.Description, Name = userAchievment.Achievment.Name, IsDone = userAchievment.IsDone, Image = userAchievment.Achievment.UrlImage };
-                resList.Add(achievment);
+                var achievment = userAchievment.Achievment;
+                if (achievment == null)
+                    continue;
+
+                resList.Add(new AchievmentFull
+                {
+                    AchievmentId = userAchievment.AchievmentId,
+                    Description = achievment.Description,
+                    Name = achievment.Name,
+                    IsDone = userAchievment.IsDone,
+                    Image = achievment.UrlImage
+                });
             }
 
             return resList;
