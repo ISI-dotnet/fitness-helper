@@ -48,20 +48,16 @@ namespace Backend.Core.Services
         /// <returns>BasicalSetFullInfo model object.</returns>
         public BasicalSetFullInfo? GetBasicalSetFullDescById(int id)
         {
-            // Fetch the set with required navigation properties
             var basicalSet = _context.BasicalSetOfExercises
                 .Include(x => x.BasicalSetExercises)
                 .Include(x => x.BasicalSetEfficiency)
                 .FirstOrDefault(x => x.BasicalSetId == id);
 
-            // Return null if the set is not found
             if (basicalSet == null) return null;
 
-            // Add efficiency and retrieve efficiency description
             AddEfficiencyToSet(basicalSet);
             var efficiencyDesc = GetEfficiencyDescFromEfficiency(basicalSet.BasicalSetEfficiency);
 
-            // Create the final response object
             return new BasicalSetFullInfo
             {
                 Id = id,
@@ -69,7 +65,6 @@ namespace Backend.Core.Services
                 Description = basicalSet.Description,
                 Image = basicalSet.UrlImage,
                 Efficiency = efficiencyDesc,
-                // Use LINQ to project exercises into ExerciseSmallDesc list
                 ExerciseSmallDescs = basicalSet.BasicalSetExercises
                     .Select(exercise => CreateExerciseSmallDesc(exercise))
                     .ToList()
