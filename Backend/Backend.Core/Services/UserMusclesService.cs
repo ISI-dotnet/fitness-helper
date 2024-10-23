@@ -32,7 +32,6 @@ namespace Backend.Core.Services
                 .Where(x => x.UserId == userId)
                 .ToList();
             var resList = new List<UserMuscleSmallDesc>();
-            double countPoints = CountOverallMusclesPoints(userMuscles);
 
             foreach (var userMuscle in userMuscles)
             {
@@ -106,21 +105,6 @@ namespace Backend.Core.Services
             _context.SaveChanges();
 
             return HttpStatusCode.OK;
-        }
-
-        /// <summary>
-        /// Counts overall points of all users muscles in order to count percentage.
-        /// </summary>
-        /// <param name="userMuscles"></param>
-        /// <returns></returns>
-        private double CountOverallMusclesPoints(List<UserMuscles> userMuscles)
-        {
-            double countPoints = 0;
-            foreach (var userMuscle in userMuscles)
-            {
-                countPoints += userMuscle.MusclePoints;
-            }
-            return countPoints;
         }
     }
 }
