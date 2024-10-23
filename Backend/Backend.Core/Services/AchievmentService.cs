@@ -25,29 +25,23 @@ namespace Backend.Core.Services
         public AchievmentSmallDesc? TrainingAchievements(int userId)
         {
             var user = _context.Users
-                .Include(x => x.UserSetsOfExercises).ThenInclude(x => x.UserSetTrainings)
+                .Include(x => x.UserSetsOfExercises)
+                .ThenInclude(x => x.UserSetTrainings)
                 .Include(x => x.BasicalSetTrainings)
                 .FirstOrDefault(x => x.UserId == userId);
 
-            if (user == null || user?.UserSetsOfExercises == null || user.BasicalSetTrainings == null)
+            if (user?.UserSetsOfExercises == null || user.BasicalSetTrainings == null)
                 return null;
 
-            int count = 0;
-            foreach (var userSet in user.UserSetsOfExercises)
+            var totalTrainings = user.UserSetsOfExercises.Sum(set => set.UserSetTrainings.Count) + user.BasicalSetTrainings.Count;
+
+            return totalTrainings switch
             {
-                count += userSet.UserSetTrainings.Count;
-            }
-
-            count += user.BasicalSetTrainings.Count;
-
-            if (count == 1)
-                return new AchievmentSmallDesc { AchievmentId = 1, Desc = "Finish Your First Training Session", Name = "First Steps" };
-            else if(count == 10)
-                return new AchievmentSmallDesc { AchievmentId = 2, Desc = "Finish 10 Training Sessions", Name = "On The Right Way" };
-            else if (count == 50)
-                return new AchievmentSmallDesc { AchievmentId = 3, Desc = "Finish 50 Training Sessions", Name = "You got better" };
-            else
-                return null;
+                1 => new AchievmentSmallDesc { AchievmentId = 1, Desc = "Finish Your First Training Session", Name = "First Steps" },
+                10 => new AchievmentSmallDesc { AchievmentId = 2, Desc = "Finish 10 Training Sessions", Name = "On The Right Way" },
+                50 => new AchievmentSmallDesc { AchievmentId = 3, Desc = "Finish 50 Training Sessions", Name = "You got better" },
+                _ => null
+            };
         }
 
         public AchievmentSmallDesc? Is5BasicalTrainings(int userId)
