@@ -179,10 +179,20 @@ namespace Backend.Core.Services
         /// </summary>
         /// <param name="exercise">Initial exercise.</param>
         /// <param name="targetMuscle">Converted SmallDesc of exercise.</param>
+        /// <param name="targetId">Specifies the id of target</param>
+        /// <param name="synergists">Specified a list of synergists</param>
         /// <returns></returns>
         private ExerciseSmallDesc ConvertExerciseToExerciseDesc(Exercise exercise, Muscle targetMuscle, int targetId, List<int> synergists)
         {
-            return new ExerciseSmallDesc() { Id = exercise.ExerciseId, Image = exercise.UrlImage, Name = exercise.Name, TargetMuscle = targetMuscle.Name, SynergistsId = synergists, TargetId = targetId };
+            return new ExerciseSmallDesc
+            {
+                Id = exercise.ExerciseId, 
+                Image = exercise.UrlImage, 
+                Name = exercise.Name, 
+                TargetMuscle = targetMuscle.Name, 
+                SynergistsId = synergists, 
+                TargetId = targetId
+            };
         }
     }
 }
