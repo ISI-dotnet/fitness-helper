@@ -1,10 +1,9 @@
 ﻿using Backend.Core.Models;
+using Backend.Core.Models.User;
 using Backend.Core.Services;
 using Backend.Infrastructure.Data;
 using Backend.Infrastructure.Models;
-using DeepEqual.Syntax;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using Xunit;
 
 namespace Backend.Core.Tests

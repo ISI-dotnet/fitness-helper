@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Backend.Core.Models
+namespace Backend.Core.Models.User
 {
     public class RegisterUser
     {

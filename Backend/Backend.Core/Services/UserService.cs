@@ -5,6 +5,7 @@ using Backend.Infrastructure.Models;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using Backend.Core.Models.User;
 
 namespace Backend.Core.Services
 {
