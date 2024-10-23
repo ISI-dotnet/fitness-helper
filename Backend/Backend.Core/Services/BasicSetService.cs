@@ -47,26 +47,41 @@ namespace Backend.Core.Services
         /// <param name="id">Id of basical set.</param>
         /// <returns>BasicalSetFullInfo model object.</returns>
         public BasicalSetFullInfo? GetBasicalSetFullDescById(int id)
-        { 
-            BasicalSetOfExercises? basicalSet = _context.BasicalSetOfExercises.Include(x => x.BasicalSetExercises).FirstOrDefault(x => x.BasicalSetId == id);
-            if (basicalSet == null)
-            {
-                return null;
-            }
-            
+        {
+            // Fetch the set with required navigation properties
+            var basicalSet = _context.BasicalSetOfExercises
+                .Include(x => x.BasicalSetExercises)
+                .Include(x => x.BasicalSetEfficiency)
+                .FirstOrDefault(x => x.BasicalSetId == id);
+
+            // Return null if the set is not found
+            if (basicalSet == null) return null;
+
+            // Add efficiency and retrieve efficiency description
             AddEfficiencyToSet(basicalSet);
-            EfficiencyDesc efficiencyDesc = GetEfficiencyDescFromEfficiency(basicalSet.BasicalSetEfficiency);
+            var efficiencyDesc = GetEfficiencyDescFromEfficiency(basicalSet.BasicalSetEfficiency);
 
-            BasicalSetFullInfo basicalSetFullInfo = new BasicalSetFullInfo() { Id = id, Description = basicalSet.Description, Name = basicalSet.Name, Image = basicalSet.UrlImage, Efficiency = efficiencyDesc };
-            List<ExerciseSmallDesc> exerciseSmallDescList = new List<ExerciseSmallDesc>();
-
-            foreach (var basicalSetExercise in basicalSet.BasicalSetExercises)
+            // Create the final response object
+            return new BasicalSetFullInfo
             {
-                AddExerciseSmallDescToList(basicalSetExercise, exerciseSmallDescList);
-            }
+                Id = id,
+                Name = basicalSet.Name,
+                Description = basicalSet.Description,
+                Image = basicalSet.UrlImage,
+                Efficiency = efficiencyDesc,
+                // Use LINQ to project exercises into ExerciseSmallDesc list
+                ExerciseSmallDescs = basicalSet.BasicalSetExercises
+                    .Select(exercise => CreateExerciseSmallDesc(exercise))
+                    .ToList()
+            };
+        }
 
-            basicalSetFullInfo.ExerciseSmallDescs = exerciseSmallDescList;
-            return basicalSetFullInfo;
+        // Helper method to create ExerciseSmallDesc
+        private ExerciseSmallDesc CreateExerciseSmallDesc(BasicalSetExercise basicalSetExercise)
+        {
+            var exerciseSmallDescList = new List<ExerciseSmallDesc>();
+            AddExerciseSmallDescToList(basicalSetExercise, exerciseSmallDescList);
+            return exerciseSmallDescList.FirstOrDefault(); // Assuming only one element is added
         }
 
 
@@ -120,13 +135,15 @@ namespace Backend.Core.Services
         /// <returns></returns>
         private Dictionary<string, int> FillEfficiencyInSet(BasicalSetOfExercises basicalSet)
         {
-            Dictionary<string, int> efficiency = new Dictionary<string, int>();
-            efficiency.Add(nameof(basicalSet.BasicalSetEfficiency.Abs), basicalSet.BasicalSetEfficiency.Abs);
-            efficiency.Add(nameof(basicalSet.BasicalSetEfficiency.Arms), basicalSet.BasicalSetEfficiency.Arms);
-            efficiency.Add(nameof(basicalSet.BasicalSetEfficiency.Back), basicalSet.BasicalSetEfficiency.Back);
-            efficiency.Add(nameof(basicalSet.BasicalSetEfficiency.Cardio), basicalSet.BasicalSetEfficiency.Cardio);
-            efficiency.Add(nameof(basicalSet.BasicalSetEfficiency.Chest), basicalSet.BasicalSetEfficiency.Chest);
-            efficiency.Add(nameof(basicalSet.BasicalSetEfficiency.Legs), basicalSet.BasicalSetEfficiency.Legs);
+            Dictionary<string, int> efficiency = new Dictionary<string, int>
+            {
+                { nameof(basicalSet.BasicalSetEfficiency.Abs), basicalSet.BasicalSetEfficiency.Abs },
+                { nameof(basicalSet.BasicalSetEfficiency.Arms), basicalSet.BasicalSetEfficiency.Arms },
+                { nameof(basicalSet.BasicalSetEfficiency.Back), basicalSet.BasicalSetEfficiency.Back },
+                { nameof(basicalSet.BasicalSetEfficiency.Cardio), basicalSet.BasicalSetEfficiency.Cardio },
+                { nameof(basicalSet.BasicalSetEfficiency.Chest), basicalSet.BasicalSetEfficiency.Chest },
+                { nameof(basicalSet.BasicalSetEfficiency.Legs), basicalSet.BasicalSetEfficiency.Legs }
+            };
             return efficiency;
         }
 
