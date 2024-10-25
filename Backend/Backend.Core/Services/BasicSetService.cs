@@ -5,6 +5,7 @@ using Backend.Infrastructure.Data;
 using Backend.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 
+// Review this service
 namespace Backend.Core.Services
 {
     public class BasicSetService : IBasicSetService
@@ -47,13 +48,13 @@ namespace Backend.Core.Services
         /// <param name="id">Id of basical set.</param>
         /// <returns>BasicalSetFullInfo model object.</returns>
         public BasicalSetFullInfo? GetBasicalSetFullDescById(int id)
-        { 
+        {
             BasicalSetOfExercises? basicalSet = _context.BasicalSetOfExercises.Include(x => x.BasicalSetExercises).FirstOrDefault(x => x.BasicalSetId == id);
             if (basicalSet == null)
             {
                 return null;
             }
-            
+
             AddEfficiencyToSet(basicalSet);
             EfficiencyDesc efficiencyDesc = GetEfficiencyDescFromEfficiency(basicalSet.BasicalSetEfficiency);
 
