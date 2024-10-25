@@ -5,6 +5,7 @@ using Backend.Infrastructure.Data;
 using Backend.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 
+// Add to review
 namespace Backend.Core.Services
 {
     public class BasicSetService : IBasicSetService
@@ -186,11 +187,11 @@ namespace Backend.Core.Services
         {
             return new ExerciseSmallDesc
             {
-                Id = exercise.ExerciseId, 
-                Image = exercise.UrlImage, 
-                Name = exercise.Name, 
-                TargetMuscle = targetMuscle.Name, 
-                SynergistsId = synergists, 
+                Id = exercise.ExerciseId,
+                Image = exercise.UrlImage,
+                Name = exercise.Name,
+                TargetMuscle = targetMuscle.Name,
+                SynergistsId = synergists,
                 TargetId = targetId
             };
         }
