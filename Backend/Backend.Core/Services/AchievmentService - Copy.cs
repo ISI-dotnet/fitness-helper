@@ -77,21 +77,6 @@ namespace Backend.Core.Services
                 : null;
         }
 
-        public HttpStatusCode PutAchievment(int achievmentId, int userId)
-        {
-            var userAchievment = _context.UserAchievments
-                                         .FirstOrDefault(x => x.UserId == userId && x.AchievmentId == achievmentId);
-            if (userAchievment == null)
-            {
-                return HttpStatusCode.NotFound;
-            }
-
-            userAchievment.IsDone = true;
-            _context.SaveChanges();
-
-            return HttpStatusCode.OK;
-        }
-
         public List<AchievmentFull> GetAllAchievments(int userId)
         {
             var resList = new List<AchievmentFull>();
@@ -117,6 +102,21 @@ namespace Backend.Core.Services
             }
 
             return resList;
+        }
+
+        public HttpStatusCode PutAchievment(int achievmentId, int userId)
+        {
+            var userAchievment = _context.UserAchievments
+                                         .FirstOrDefault(x => x.UserId == userId && x.AchievmentId == achievmentId);
+            if (userAchievment == null)
+            {
+                return HttpStatusCode.NotFound;
+            }
+
+            userAchievment.IsDone = true;
+            _context.SaveChanges();
+
+            return HttpStatusCode.OK;
         }
 
         public AchievmentSmallDesc? IsResearcher(int userId)
