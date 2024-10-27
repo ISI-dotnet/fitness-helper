@@ -7,7 +7,7 @@ using Backend.Infrastructure.Models;
 
 namespace Backend.Core.Tests
 {
-    public class AchievmentTests
+    public class AchievmentServiceTests
     {
         private Mock<DbSet<User>> CreateMockDbSet(IEnumerable<User> data)
         {
@@ -94,5 +94,4 @@ namespace Backend.Core.Tests
             Assert.Equal("Learn From The Best", result.Name);
         }
     }
-
 }
