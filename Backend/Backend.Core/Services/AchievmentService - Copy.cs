@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace Backend.Core.Services
 {
-    public class AchievmentService : IAchievmentService
+    public class AchievmentServiceCopy : IAchievmentService
     {
         /// <summary>
         /// Entity Framework DbContext.
         /// </summary>
         private readonly ApplicationContext _context;
-        public AchievmentService(ApplicationContext context)
+        public AchievmentServiceCopy(ApplicationContext context)
         {
             _context = context;
         }
